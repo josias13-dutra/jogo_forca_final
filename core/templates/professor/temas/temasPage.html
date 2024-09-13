@@ -1,0 +1,46 @@
+<!-- Atualize o template de administração de temas com o botão "Relatórios" -->
+{% extends "base.html" %}
+{% block title %} Administrar Temas {% endblock title %}
+
+{% block main %}
+<div class="container">
+  <h1 class="text-center mb-4">Administrar Temas</h1>
+
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary mt-3">Criar Tema</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <h2>Temas Existentes</h2>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for tema in object_list %}
+          <tr>
+            <td>{{ tema.nome }}</td>
+            <td>{{ tema.descricao }}</td>
+            <td>
+              <a href="{% url 'editarTema' tema.id %}" class="btn btn-sm btn-warning">Editar</a>
+              <a href="{% url 'deletarTema' tema.id %}" class="btn btn-sm btn-danger">Deletar</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock main %}

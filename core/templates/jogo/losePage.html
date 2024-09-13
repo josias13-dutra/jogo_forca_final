@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Você Perdeu!
+{% endblock title %}
+
+{% block main %}
+<div class="container mt-5">
+  <div class="text-center mb-4">
+    <h1 class="display-3 text-danger">Que pena!</h1>
+    <p class="lead">Você não conseguiu acertar a palavra.</p>
+    <a href="{% url 'temaListPage' %}" class="btn btn-primary btn-lg">Voltar ao Início</a>
+  </div>
+</div>
+{% endblock main %}

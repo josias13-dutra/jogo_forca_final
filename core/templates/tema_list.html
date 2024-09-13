@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Página Inicial
+{% endblock title %}
+
+{% block main %}
+<div class="container">
+  <h1 class="text-center mb-4">Jogo da Forca</h1>
+
+  <!-- Formulário de Filtro -->
+  <form method="get" class="mb-4">
+    <div class="form-row">
+      <div class="col-md-4 mb-2">
+        <label for="professor">Professor</label>
+            <select name="professor">
+              <option value="">-- Professores --</option>
+              {% for professor in professores %}
+              <option value="{{ professor.id }}">{{ professor.username }}</option>
+              {% endfor %}
+            </select>
+
+      </div>
+      <div class="col-md-4 mb-2">
+        <label for="tema">Tema</label>
+        <select id="tema" name="tema" class="form-control">
+          <option value="">-- Temas --</option>
+          {% for tema in temas %}
+            <option value="{{ tema.id }}" {% if request.GET.tema == tema.id|stringformat:"s" %}selected{% endif %}>{{ tema.nome }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4 mb-2">
+        <button type="submit" class="btn btn-primary mt-4">Filtrar</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Cards de Tema -->
+  <div class="row justify-content-center">
+    {% for tema in temas %}
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-body text-center">
+          <h5 class="card-title">{{ tema.nome }}</h5>
+          <p class="card-text">{{ tema.descricao }}</p>
+          <p class="card-text"><small class="text-muted">Professor: {{ tema.professor.username }}</small></p>
+          <a href="{% url 'temaDetalhes' tema.id %}" class="btn btn-primary">Sobre o Tema</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-center">Vazio.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock main %}

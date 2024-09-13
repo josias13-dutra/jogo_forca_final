@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}
+  Relatório de Atividades
+{% endblock title %}
+
+{% block main %}
+  <div class="container mt-5">
+    <h2 class="mb-4 text-center">Relatório de Atividades</h2>
+
+<form method="GET" action="{% url 'relatorioAtividade' %}">
+    <label for="tema">Tema:</label>
+    <select name="tema" id="tema">
+        <option value="">Todos</option> <!-- Opção para não filtrar por tema -->
+        {% for tema in temas %}
+            <option value="{{ tema.id }}" {% if request.GET.tema == tema.id|stringformat:"s" %}selected{% endif %}>
+                {{ tema.nome }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label for="data_inicio">Data Início:</label>
+    <input type="date" name="data_inicio" id="data_inicio" value="{{ request.GET.data_inicio }}">
+
+    <label for="data_fim">Data Fim:</label>
+    <input type="date" name="data_fim" id="data_fim" value="{{ request.GET.data_fim }}">
+
+    <button type="submit" name="filtrar">Filtrar</button>
+    <button type="submit" name="exportar_pdf">Exportar para PDF</button>
+</form>
+
+
+    {% if atividades %}
+      <div class="text-right mb-3">
+        <a href="?exportar_pdf=1{% if request.GET.tema %}&tema={{ request.GET.tema }}{% endif %}{% if request.GET.data_inicio %}&data_inicio={{ request.GET.data_inicio }}{% endif %}{% if request.GET.data_fim %}&data_fim={{ request.GET.data_fim }}{% endif %}" class="btn btn-danger">Exportar PDF</a>
+      </div>
+
+      <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>Aluno</th>
+            <th>Tema</th>
+            <th>Data</th>
+            <th>Resultado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for atividade in atividades %}
+            <tr>
+              <td>{{ atividade.aluno.username }}</td>
+              <td>{{ atividade.tema.nome }}</td>
+              <td>{{ atividade.data }}</td>
+              <td>{{ atividade.resultado }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% elif request.GET %}
+      <p class="text-center">Nenhuma atividade encontrada com os filtros aplicados.</p>
+    {% endif %}
+  </div>
+{% endblock main %}

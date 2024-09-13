@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <section class="py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <h1 class="text-center mb-4">Entrar conta</h1>
+            <div class="card">
+              <div class="card-body">
+                <form method="post">
+                  {% csrf_token %}
+
+                  <div class="form-group">
+                    <label for="id_username">Username</label>
+                    <input
+                      type="text"
+                      name="username"
+                      id="id_username"
+                      class="form-control {% if form.username.errors %}is-invalid{% endif %}"
+                      required
+                    />
+                    {% if form.username.errors %}
+                    <div class="invalid-feedback">
+                      {% for error in form.username.errors %}
+                      <p>{{ error }}</p>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+
+                  <div class="form-group">
+                    <label for="id_password">Sua senha:</label>
+                    <input
+                      type="password"
+                      name="password"
+                      id="id_password"
+                      class="form-control {% if form.password.errors %}is-invalid{% endif %}"
+                      required
+                    />
+                    {% if form.password.errors %}
+                    <div class="invalid-feedback">
+                      {% for error in form.password.errors %}
+                      <p>{{ error }}</p>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+
+                  <button class="btn btn-primary btn-block" type="submit">
+                    Entrar
+                  </button>
+                  <p style="margin: 0.5m 0 0.5em 0">
+                    Não tem conta? <a href="{% url 'signup' %}">Crie aqui</a>
+                  </p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

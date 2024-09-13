@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %} Administrar Palavras {% endblock title %}
+
+{% block main %}
+<div class="container">
+  <h1 class="text-center mb-4">Administrar Palavras</h1>
+
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary mt-3">Adicionar Palavra</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <h2>Palavras Existentes</h2>
+      {% if object_list %}
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Tema</th>
+            <th>Palavra</th>
+            <th>Dica</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for palavra in object_list %}
+          <tr>
+            <td>{{ palavra.tema.nome }}</td>
+            <td>{{ palavra.palavra }}</td>
+            <td>{{ palavra.dica }}</td>
+            <td>
+              <a href="{% url 'editarPalavra' palavra.id %}" class="btn btn-sm btn-warning">Editar</a>
+              <a href="{% url 'deletarPalavra' palavra.id %}" class="btn btn-sm btn-danger">Deletar</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="text-center">Nenhuma palavra encontrada para este professor.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock main %}

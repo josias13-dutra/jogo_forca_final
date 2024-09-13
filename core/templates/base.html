@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %} {% endblock title %}</title>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>  
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="{% url 'temaListPage' %}">Jogo da Forca</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'temaListPage' %}"
+              >Página Inicial</a
+            >
+          </li>
+
+          {% if user.is_authenticated %} {% if is_professor %}
+          <li class="nav-item">
+            <a class="btn btn-warning" href="{% url 'professorGeralPage' %}" style="margin-right: 0.5em"
+              >Administrar Temas</a
+            >
+          </li>
+          {% endif %}
+          <li class="nav-item">
+            <a
+              class="btn btn-light"
+              href="{% url 'temaListPage' %}"
+              style="margin-right: 0.5em"
+              >{{ user.username }}</a
+            >
+          </li>
+          <li class="nav-item">
+            <form action="{% url 'logout' %}" method="post" class="form-inline">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="btn btn-success" href="{% url 'signin' %}">Entrar</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    {% block main %} {% endblock main %}
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
